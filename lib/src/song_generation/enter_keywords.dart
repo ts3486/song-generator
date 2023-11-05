@@ -10,7 +10,7 @@ class EnterKeyWordsWidget extends StatefulWidget {
 }
 
 class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
-  String _keyword = "";
+  final TextEditingController _textController = TextEditingController();
   final List<String> _keywords =
       []; // The state variable that you want to change.
 
@@ -18,10 +18,17 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
 
   void _addKeyword(keyword) {
     setState(() {
+      final keyword = _textController.text;
       _keywords.add(
           keyword); // This call to setState tells Flutter to rerender the widget.
-      _keyword = "";
+      _textController.clear();
     });
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose(); // Don't forget to dispose of the controller
+    super.dispose();
   }
 
   @override
@@ -49,16 +56,12 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
                         ),
                       ),
                       TextField(
+                        controller: _textController,
                         obscureText: true,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Keyword',
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            _keyword = value;
-                          });
-                        },
                       ),
                       if (!_isKeywordMaxed) ...[
                         ElevatedButton(
@@ -67,7 +70,7 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
                               foregroundColor: Colors.black,
                               shape: const StadiumBorder(),
                               minimumSize: const Size(150, 50)),
-                          onPressed: () => {_addKeyword(_keyword)},
+                          onPressed: () => {_addKeyword(_textController.text)},
                           child: const Text(
                             'Add Keyword',
                             style: TextStyle(
@@ -83,7 +86,7 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
                               foregroundColor: Colors.black,
                               shape: const StadiumBorder(),
                               minimumSize: const Size(150, 50)),
-                          onPressed: () => {_addKeyword(_keyword)},
+                          onPressed: () => {_addKeyword(_textController.text)},
                           child: const Text(
                             'Next',
                             style: TextStyle(
