@@ -18,7 +18,7 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
   //     _keyword = v; // This call to setState tells Flutter to rerender the widget.
   // });
 
-  _addKeyword(keyword) {
+  void _addKeyword(keyword) {
     setState(() {
       _keywords.add(
           keyword); // This call to setState tells Flutter to rerender the widget.
@@ -47,21 +47,32 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
                         fontSize: 20,
                       ),
                     ),
-                    const TextField(
+                    TextField(
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Keyword',
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _keyword = value;
+                        });
+                      },
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                          backgroundColor: Colors.blue[300],
                           foregroundColor: Colors.black,
                           shape: const StadiumBorder(),
                           minimumSize: const Size(150, 50)),
-                      onPressed: _addKeyword(_keyword),
-                      child: const Text('Button'),
+                      onPressed: () => {_addKeyword(_keyword)},
+                      child: const Text(
+                        'Add Keyword',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   ]))),
 
