@@ -82,28 +82,28 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
             height: 230,
             child: Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Chip(
-                        labelPadding: const EdgeInsets.all(2.5),
-                        // avatar: CircleAvatar(
-                        //   backgroundColor: Colors.white70,
-                        //   child: Text(_keywords[0].toUpperCase()),
-                        // ),
-                        label: const Text(
-                          'keyword1',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        backgroundColor: Colors.blue[300],
-                        elevation: 6.0,
-                        shadowColor: Colors.grey[60],
-                        deleteIcon: const Icon(Icons.close),
-                        onDeleted: () {},
+                child: Wrap(
+                    children:
+                        List<Widget>.generate(_keywords.length, (int idx) {
+                  return Chip(
+                    labelPadding: const EdgeInsets.all(2.5),
+                    // avatar: CircleAvatar(
+                    //   backgroundColor: Colors.white70,
+                    //   child: Text(_keywords[0].toUpperCase()),
+                    // ),
+                    label: const Text(
+                      ' keyword1',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
-                    ]))),
+                    ),
+                    backgroundColor: Colors.blue[300],
+                    elevation: 6.0,
+                    shadowColor: Colors.grey[60],
+                    deleteIcon: const Icon(Icons.close),
+                    onDeleted: () {},
+                  );
+                })))),
       ]),
 
       // floatingActionButton: FloatingActionButton(
