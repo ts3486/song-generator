@@ -11,17 +11,16 @@ class EnterKeyWordsWidget extends StatefulWidget {
 
 class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
   String _keyword = "";
-  List<String> _keywords = []; // The state variable that you want to change.
+  final List<String> _keywords =
+      []; // The state variable that you want to change.
 
-  // _setKeyword(v) {
-  //   setState(() {
-  //     _keyword = v; // This call to setState tells Flutter to rerender the widget.
-  // });
+  bool get _isKeywordMaxed => _keywords.length >= 3;
 
   void _addKeyword(keyword) {
     setState(() {
       _keywords.add(
           keyword); // This call to setState tells Flutter to rerender the widget.
+      _keyword = "";
     });
   }
 
@@ -42,7 +41,7 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       const Text(
-                        'Enter Song Keywords',
+                        'Enter Up To 3 Keywords',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -61,56 +60,75 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
                           });
                         },
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange[300],
-                            foregroundColor: Colors.black,
-                            shape: const StadiumBorder(),
-                            minimumSize: const Size(150, 50)),
-                        onPressed: () => {_addKeyword(_keyword)},
-                        child: const Text(
-                          'Add Keyword',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                      if (!_isKeywordMaxed) ...[
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange[300],
+                              foregroundColor: Colors.black,
+                              shape: const StadiumBorder(),
+                              minimumSize: const Size(150, 50)),
+                          onPressed: () => {_addKeyword(_keyword)},
+                          child: const Text(
+                            'Add Keyword',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      ),
+                        )
+                      ] else ...[
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red[400],
+                              foregroundColor: Colors.black,
+                              shape: const StadiumBorder(),
+                              minimumSize: const Size(150, 50)),
+                          onPressed: () => {_addKeyword(_keyword)},
+                          child: const Text(
+                            'Next',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
                     ]))),
         //Display Section
         SizedBox(
             height: 230,
             child: Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: Wrap(
-                    children:
-                        List<Widget>.generate(_keywords.length, (int idx) {
-                  return Chip(
-                    labelPadding: const EdgeInsets.all(2.5),
-                    // avatar: CircleAvatar(
-                    //   backgroundColor: Colors.white70,
-                    //   child: Text(_keywords[0].toUpperCase()),
-                    // ),
-                    label: const Text(
-                      ' keyword1',
-                      style: TextStyle(
-                        color: Colors.white,
+                child: Column(children: <Widget>[
+                  const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text('Selected Keywords:',
+                          style: TextStyle(color: Colors.white))),
+                  Wrap(
+                      children:
+                          List<Widget>.generate(_keywords.length, (int idx) {
+                    return Chip(
+                      labelPadding: const EdgeInsets.all(2.5),
+                      label: Text(
+                        _keywords[idx],
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    backgroundColor: Colors.blue[300],
-                    elevation: 6.0,
-                    shadowColor: Colors.grey[60],
-                    deleteIcon: const Icon(Icons.close),
-                    onDeleted: () {},
-                  );
-                })))),
+                      backgroundColor: Colors.blue[300],
+                      elevation: 6.0,
+                      shadowColor: Colors.grey[60],
+                      deleteIcon: const Icon(Icons.close),
+                      onDeleted: () {
+                        setState(() {
+                          //remove selected keyword chip
+                          _keywords.remove(_keywords[idx]);
+                        });
+                      },
+                    );
+                  }))
+                ])))
       ]),
-
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _addKeyword(_keyword),
-      //   tooltip: 'Add',
-      //   child: Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
