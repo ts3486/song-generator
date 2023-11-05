@@ -30,22 +30,46 @@ class EnterKeyWordsWidgetState extends State<EnterKeyWordsWidget> {
     // This method builds the UI with current state of _counter.
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Counter Example'),
+        title: const Text('Song Generator'),
       ),
-      body: const Center(
-          child: TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Password',
-        ),
-      )),
+      body: SizedBox(
+          height: 230,
+          child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    const Text(
+                      'Enter Song Keywords',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Keyword',
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.black,
+                          shape: const StadiumBorder(),
+                          minimumSize: const Size(150, 50)),
+                      onPressed: _addKeyword(_keyword),
+                      child: const Text('Button'),
+                    ),
+                  ]))),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addKeyword(_keyword),
-        tooltip: 'Add',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _addKeyword(_keyword),
+      //   tooltip: 'Add',
+      //   child: Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
